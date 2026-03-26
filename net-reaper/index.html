@@ -1,0 +1,47 @@
+<h1>Net Reaper Browser Extension — Privacy Policy</h1>
+<p><em>Last updated: March 26, 2026</em></p>
+
+<p>The Net Reaper browser extension ("the extension") intercepts browser downloads and routes them to the Net Reaper desktop application for managed downloading. It communicates exclusively with a locally installed native messaging host on your computer — it does not send any data to external servers.</p>
+
+<h2>What the extension accesses</h2>
+<ul>
+  <li><strong>Download URLs</strong> — when a download starts, the extension reads the URL so it can forward it to the Net Reaper desktop app on your machine.</li>
+  <li><strong>HTTP request headers</strong> — the extension captures the Cookie and Referer headers that your browser already sends for the download request. These are forwarded to the desktop app so it can authenticate with the server on your behalf (e.g. to pass Cloudflare verification).</li>
+  <li><strong>Cookies</strong> — used only as a fallback if request headers are unavailable. Cookies are read for the specific download URL only and forwarded to the local desktop app. They are never stored, logged, or transmitted externally.</li>
+</ul>
+
+<h2>How data flows</h2>
+<p>All data captured by the extension is sent exclusively to the Net Reaper desktop application running on your local machine, via Chrome's Native Messaging API. The communication path is:</p>
+<ol>
+  <li>Extension → Native Messaging Host (local Node.js process)</li>
+  <li>Native Messaging Host → Named Pipe (local IPC) → Net Reaper desktop app</li>
+</ol>
+<p>No data ever leaves your computer. There are no external API calls, servers, or cloud services involved.</p>
+
+<h2>What we store</h2>
+<ul>
+  <li><strong>Enabled/disabled state</strong> — a single boolean stored in <code>chrome.storage.local</code> to remember whether interception is on or off.</li>
+  <li><strong>Debug log</strong> — up to 50 recent log entries stored in <code>chrome.storage.local</code> for troubleshooting. These contain timestamps and truncated URLs. The log is visible only in the extension popup and can be cleared at any time. It is never transmitted externally.</li>
+</ul>
+
+<h2>What we don't collect</h2>
+<p>The extension does not collect analytics, telemetry, usage statistics, browsing history, personal information, or any data beyond what is described above. It does not communicate with any external server. It contains no advertising, tracking pixels, or third-party scripts.</p>
+
+<h2>Permissions explained</h2>
+<ul>
+  <li><strong>downloads</strong> — required to detect when a download starts and to cancel the browser's built-in download so Net Reaper can handle it instead.</li>
+  <li><strong>nativeMessaging</strong> — required to communicate with the locally installed Net Reaper desktop application via Chrome's Native Messaging API.</li>
+  <li><strong>storage</strong> — required to persist the enabled/disabled toggle and debug log entries across browser sessions.</li>
+  <li><strong>cookies</strong> — required as a fallback to read authentication cookies for the download URL, so the desktop app can authenticate with the server. Cookies are only read on-demand for the specific download URL and are never stored or sent externally.</li>
+  <li><strong>webRequest</strong> — required to capture the HTTP method (GET/POST) and request headers (Cookie, Referer) for download requests, so the desktop app can replay the request with identical authentication.</li>
+  <li><strong>host_permissions (&lt;all_urls&gt;)</strong> — required because downloads can originate from any website. The extension only acts when a download event fires — it does not monitor, modify, or intercept regular browsing traffic.</li>
+</ul>
+
+<h2>Third-party services</h2>
+<p>None. The extension does not use any third-party services, SDKs, or libraries.</p>
+
+<h2>Changes to this policy</h2>
+<p>If this policy is updated, the new version will be posted at this URL. The "last updated" date at the top will reflect the most recent revision.</p>
+
+<h2>Contact</h2>
+<p>For questions about this privacy policy, open an issue at <a href="https://github.com/EerieGoesD/net-reaper/issues">github.com/EerieGoesD/net-reaper/issues</a>.</p>
